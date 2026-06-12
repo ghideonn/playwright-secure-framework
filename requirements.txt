@@ -1,0 +1,39 @@
+# ============================================================
+# Production dependencies for Playwright Security Framework
+# ============================================================
+# All versions pinned for reproducible builds across environments
+
+# --- Core test framework ---
+pytest==9.0.3
+pytest-base-url==2.1.0
+
+# --- Browser automation ---
+playwright==1.60.0
+pytest-playwright==0.8.0
+
+# --- BDD layer (Gherkin support for pytest) ---
+pytest-bdd==8.1.0
+
+# --- HTTP / Networking (used in security header validation) ---
+requests==2.34.2
+urllib3==2.7.0
+
+# --- Supporting libraries (transitive but pinned for reproducibility) ---
+certifi==2026.5.20
+charset-normalizer==3.4.7
+gherkin-official==29.0.0
+greenlet==3.5.1
+idna==3.18
+iniconfig==2.3.0
+Mako==1.3.12
+MarkupSafe==3.0.3
+packaging==26.2
+parse==1.22.1
+parse_type==0.6.6
+pluggy==1.6.0
+pyee==13.0.1
+Pygments==2.20.0
+python-slugify==8.0.4
+six==1.17.0
+text-unidecode==1.3
+typing_extensions==4.15.0
