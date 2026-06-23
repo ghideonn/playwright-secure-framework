@@ -1,0 +1,35 @@
+# ============================================================
+# Site configuration: OWASP Juice Shop
+# ============================================================
+# This file declares everything site-specific so that test
+# logic stays generic and reusable across multiple targets.
+
+name: "OWASP Juice Shop"
+base_url: "https://juice-shop.herokuapp.com"
+
+# ------------------------------------------------------------
+# Expected security headers
+# Used by: audits/headers_auditor.py
+# Each header maps to whether it's REQUIRED for a pass.
+# ------------------------------------------------------------
+security_headers:
+  X-Frame-Options: required
+  X-Content-Type-Options: required
+  Content-Security-Policy: required
+  Strict-Transport-Security: optional
+  Referrer-Policy: optional
+  Permissions-Policy: optional
+
+# ------------------------------------------------------------
+# UI selectors (site-specific)
+# Used by: pages/juice_shop/*.py
+# Centralizing selectors here means a markup change = one edit.
+# ------------------------------------------------------------
+selectors:
+  login:
+    email_input: "#email"
+    password_input: "#password"
+    submit_button: "#loginButton"
+  navigation:
+    dismiss_welcome: "button[aria-label='Close Welcome Banner']"
+    dismiss_cookie: "a[aria-label='dismiss cookie message']"

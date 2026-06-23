@@ -4,6 +4,7 @@ from playwright.sync_api import Playwright
 # Target URL: OWASP Juice Shop vulnerable web application for testing purposes
 TARGET_URL = "https://juice-shop.herokuapp.com/"
 
+@pytest.mark.security
 def test_security_headers_audit(playwright: Playwright):
     """
     Security Automation Test: Validates that the backend server 
@@ -32,7 +33,7 @@ def test_security_headers_audit(playwright: Playwright):
         print(f"-> {header}: {header_value}")
         
         # Core Assertion: Verify the security header is present (not None)
-        assert header_value is not None, f"⚠️ SECURITY VULNERABILITY: Missing critical header: {header}"
+        assert header_value is not None, f"SECURITY VULNERABILITY: Missing critical header: {header}"
 
     # Gracefully close the browser context to release system resources
     browser.close()
