@@ -1,0 +1,30 @@
+# ============================================================
+# Docker Compose: local OWASP Juice Shop target
+# ============================================================
+# Provides a reproducible, deterministic target for security testing.
+# Replaces the unreliable external herokuapp instance.
+#
+# Usage:
+#   docker compose -f docker/docker-compose.yml up -d    # start
+#   docker compose -f docker/docker-compose.yml down     # stop
+#
+# Once running, the app is available at http://localhost:3000
+
+services:
+  juice-shop:
+    # Official OWASP Juice Shop image (latest = stable, Node 22.x)
+    image: bkimminich/juice-shop:latest
+    container_name: juice-shop
+    ports:
+      # Bind to 127.0.0.1 only (localhost) — not exposed to the network.
+      # This follows the project's official run command and is a sensible
+      # default for a deliberately vulnerable application.
+      - "127.0.0.1:3000:3000"
+    restart: unless-stopped
+    # Healthcheck so we know when the app is ready to accept requests
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s

@@ -89,6 +89,24 @@ pip install -r requirements.txt
 playwright install chromium
 ```
 
+### Running the Target Application
+
+Tests run against a local OWASP Juice Shop instance via Docker.
+
+```bash
+# Start Juice Shop (available at http://localhost:3000)
+docker compose -f docker/docker-compose.yml up -d
+
+# Verify it's running
+curl -sI http://localhost:3000
+
+# Stop when done
+docker compose -f docker/docker-compose.yml down
+```
+
+The target must be running before executing tests. A local containerized
+target ensures reproducible, deterministic results across machines and CI.
+
 ---
 
 ## Running Tests

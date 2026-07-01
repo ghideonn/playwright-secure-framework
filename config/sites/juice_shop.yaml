@@ -5,8 +5,7 @@
 # logic stays generic and reusable across multiple targets.
 
 name: "OWASP Juice Shop"
-base_url: "https://juice-shop.herokuapp.com"
-
+base_url: "http://localhost:3000"
 # ------------------------------------------------------------
 # Expected security headers
 # Used by: audits/headers_auditor.py
