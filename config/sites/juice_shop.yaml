@@ -40,6 +40,26 @@ security_headers:
     remediation: "Set 'Permissions-Policy' to restrict access to browser features."
 
 # ------------------------------------------------------------
+# Cookie security policy
+# Used by: audits/cookies_auditor.py
+# Defines which flags cookies should have and the severity if missing.
+# 'enforce_on' controls scope: 'all' checks every cookie, or list
+# specific cookie names to check only those.
+# ------------------------------------------------------------
+cookie_policy:
+  enforce_on: all
+  required_flags:
+    secure:
+      severity: high
+      remediation: "Set the 'Secure' flag so cookies are only sent over HTTPS."
+    httponly:
+      severity: high
+      remediation: "Set the 'HttpOnly' flag to prevent JavaScript access (XSS mitigation)."
+    samesite:
+      severity: medium
+      remediation: "Set 'SameSite' (Strict or Lax) to mitigate CSRF attacks."
+
+# ------------------------------------------------------------
 # UI selectors (site-specific)
 # Used by: pages/juice_shop/*.py
 # Centralizing selectors here means a markup change = one edit.
