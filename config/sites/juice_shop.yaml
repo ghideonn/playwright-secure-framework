@@ -10,15 +10,34 @@ base_url: "https://juice-shop.herokuapp.com"
 # ------------------------------------------------------------
 # Expected security headers
 # Used by: audits/headers_auditor.py
-# Each header maps to whether it's REQUIRED for a pass.
+# Each header declares whether it's required, its risk severity
+# if missing, and remediation guidance for the audit report.
 # ------------------------------------------------------------
 security_headers:
-  X-Frame-Options: required
-  X-Content-Type-Options: required
-  Content-Security-Policy: required
-  Strict-Transport-Security: optional
-  Referrer-Policy: optional
-  Permissions-Policy: optional
+  X-Frame-Options:
+    required: true
+    severity: medium
+    remediation: "Set 'X-Frame-Options: SAMEORIGIN' to prevent clickjacking attacks."
+  X-Content-Type-Options:
+    required: true
+    severity: medium
+    remediation: "Set 'X-Content-Type-Options: nosniff' to prevent MIME-type sniffing."
+  Content-Security-Policy:
+    required: true
+    severity: high
+    remediation: "Define a Content-Security-Policy to mitigate XSS and data injection attacks."
+  Strict-Transport-Security:
+    required: false
+    severity: high
+    remediation: "Add 'Strict-Transport-Security' to enforce HTTPS and prevent downgrade attacks."
+  Referrer-Policy:
+    required: false
+    severity: low
+    remediation: "Set 'Referrer-Policy' to control referrer information leakage."
+  Permissions-Policy:
+    required: false
+    severity: low
+    remediation: "Set 'Permissions-Policy' to restrict access to browser features."
 
 # ------------------------------------------------------------
 # UI selectors (site-specific)
