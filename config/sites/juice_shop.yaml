@@ -59,6 +59,21 @@ cookie_policy:
       remediation: "Set 'SameSite' (Strict or Lax) to mitigate CSRF attacks."
 
 # ------------------------------------------------------------
+# CORS policy expectations
+# Used by: audits/cors_auditor.py
+# Flags overly permissive Cross-Origin Resource Sharing settings.
+# ------------------------------------------------------------
+cors_policy:
+  # Wildcard Allow-Origin lets any site read responses — flag it.
+  disallow_wildcard_origin:
+    severity: medium
+    remediation: "Avoid 'Access-Control-Allow-Origin: *'. Specify explicit trusted origins."
+  # Wildcard origin combined with credentials is a critical misconfiguration.
+  disallow_wildcard_with_credentials:
+    severity: high
+    remediation: "Never combine 'Access-Control-Allow-Origin: *' with 'Access-Control-Allow-Credentials: true'."
+
+# ------------------------------------------------------------
 # UI selectors (site-specific)
 # Used by: pages/juice_shop/*.py
 # Centralizing selectors here means a markup change = one edit.
