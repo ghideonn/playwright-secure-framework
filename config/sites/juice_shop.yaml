@@ -74,6 +74,31 @@ cors_policy:
     remediation: "Never combine 'Access-Control-Allow-Origin: *' with 'Access-Control-Allow-Credentials: true'."
 
 # ------------------------------------------------------------
+# Information disclosure policy
+# Used by: audits/disclosure_auditor.py
+# Lists response headers that leak technology stack details and
+# should NOT be present. Their presence is a finding.
+# ------------------------------------------------------------
+disclosure_policy:
+  # Headers that reveal server/framework details to attackers.
+  forbidden_headers:
+    Server:
+      severity: low
+      remediation: "Remove or obfuscate the 'Server' header to hide web server type and version."
+    X-Powered-By:
+      severity: low
+      remediation: "Remove 'X-Powered-By' to avoid revealing the backend framework."
+    X-AspNet-Version:
+      severity: medium
+      remediation: "Remove 'X-AspNet-Version' to hide the .NET framework version."
+    X-AspNetMvc-Version:
+      severity: medium
+      remediation: "Remove 'X-AspNetMvc-Version' to hide the ASP.NET MVC version."
+    X-Generator:
+      severity: low
+      remediation: "Remove 'X-Generator' to avoid revealing the CMS or generator."
+
+# ------------------------------------------------------------
 # UI selectors (site-specific)
 # Used by: pages/juice_shop/*.py
 # Centralizing selectors here means a markup change = one edit.
