@@ -111,3 +111,21 @@ selectors:
   navigation:
     dismiss_welcome: "button[aria-label='Close Welcome Banner']"
     dismiss_cookie: "a[aria-label='dismiss cookie message']"
+
+# ------------------------------------------------------------
+# Test payloads for input-based security checks
+# Used by: pages/ objects and security tests
+# Centralizing payloads here keeps attack strings configurable
+# per target, separate from test logic.
+# ------------------------------------------------------------
+payloads:
+  sql_injection:
+    - "' OR 1=1--"
+    - "' OR '1'='1"
+    - "admin'--"
+  xss:
+    - "<script>alert(1)</script>"
+    - "\"><img src=x onerror=alert(1)>"
+  # Placeholder value for the password field during payload-based login
+  # attempts (the password is often irrelevant when injecting via email).
+  placeholder_password: "placeholder"
