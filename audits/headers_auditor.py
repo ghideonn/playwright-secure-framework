@@ -1,7 +1,7 @@
 """
 Headers auditor: validates HTTP security headers against site config.
 
-Response-driven (Type A) auditor. Takes a response's headers and the
+Response-driven auditor. Takes a response's headers and the
 site's expected-header rules, then produces an AuditResult with one
 Finding per configured header.
 """

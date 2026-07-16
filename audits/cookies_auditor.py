@@ -1,7 +1,7 @@
 """
 Cookies auditor: validates cookie security flags against site config.
 
-Response-driven (Type A) auditor. Takes the cookies set by a target
+Response-driven auditor. Takes the cookies set by a target
 (via context.cookies()) and the site's cookie policy, then produces an
 AuditResult with one Finding per (cookie, required-flag) pair.
 """

@@ -1,7 +1,7 @@
 """
 CORS auditor: detects overly permissive Cross-Origin Resource Sharing.
 
-Response-driven (Type A) auditor. Inspects Access-Control-* response
+Response-driven auditor. Inspects Access-Control-* response
 headers and flags misconfigurations such as a wildcard Allow-Origin,
 especially when combined with credentials.
 """

@@ -1,7 +1,7 @@
 """
 Information disclosure auditor: detects headers that leak stack details.
 
-Response-driven (Type A) auditor. Checks for the presence of response
+Response-driven auditor. Checks for the presence of response
 headers that reveal server/framework/version information useful to an
 attacker. Unlike security headers (which SHOULD be present), these
 headers should NOT be present — their presence is a finding.
