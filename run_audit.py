@@ -52,6 +52,12 @@ def run_audits(config: dict) -> list:
 
         # Navigate once; reuse the response headers and cookies
         response = page.goto(base_url)
+
+        # Wait for network activity to settle before reading cookies.
+        # Some cookies are set by client-side scripts after the initial
+        # response, so reading immediately makes results depend on timing.
+        page.wait_for_load_state("networkidle")
+
         headers = response.headers
         cookies = context.cookies()
 
