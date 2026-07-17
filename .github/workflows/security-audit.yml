@@ -1,0 +1,86 @@
+# ============================================================
+# Security audit pipeline
+# ============================================================
+# Runs the security framework against a containerized target on every
+# push, publishes severity-rated findings as artifacts, and renders the
+# report in the job summary.
+#
+# The target is a deliberately vulnerable application, so findings are
+# documented rather than used to gate the pipeline. For a production
+# target, a severity threshold would fail the build instead.
+
+name: Security Audit
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [main]
+  # Allow running the pipeline manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  security-audit:
+    name: Audit target application
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          # Match the local development version for consistent dependency resolution
+          python-version: '3.14'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Playwright browser
+        # --with-deps installs the system libraries Chromium needs on Ubuntu
+        run: playwright install --with-deps chromium
+
+      - name: Start target application
+        # Reuses the same compose file used locally - single source of truth
+        run: docker compose -f docker/docker-compose.yml up -d
+
+      - name: Wait for target to be ready
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl -sf http://localhost:3000 > /dev/null; then
+              echo "Target ready after ${attempt} attempt(s)."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Target did not become ready in time. Container logs:"
+          docker compose -f docker/docker-compose.yml logs
+          exit 1
+
+      - name: Run security audit
+        # Generates console output plus JSON and Markdown reports
+        run: python run_audit.py --target juice_shop
+
+      - name: Run test suite
+        # Failing tests against a target are findings, not defects.
+        # Results stay visible in the log without failing the job.
+        continue-on-error: true
+        run: pytest --target=juice_shop -v
+
+      - name: Publish report to job summary
+        if: always()
+        run: cat test-results/reports/juice_shop_audit.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload audit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-reports
+          path: test-results/reports/
+          retention-days: 30
+
+      - name: Stop target application
+        if: always()
+        run: docker compose -f docker/docker-compose.yml down
