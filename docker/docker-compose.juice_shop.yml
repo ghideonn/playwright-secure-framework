@@ -5,8 +5,8 @@
 # Replaces the unreliable external herokuapp instance.
 #
 # Usage:
-#   docker compose -f docker/docker-compose.yml up -d    # start
-#   docker compose -f docker/docker-compose.yml down     # stop
+#   docker compose -f docker/docker-compose.juice_shop.yml up -d    # start
+#   docker compose -f docker/docker-compose.juice_shop.yml down     # stop
 #
 # Once running, the app is available at http://localhost:3000
 

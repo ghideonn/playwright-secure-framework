@@ -95,13 +95,13 @@ Tests run against a local OWASP Juice Shop instance via Docker.
 
 ```bash
 # Start Juice Shop (available at http://localhost:3000)
-docker compose -f docker/docker-compose.yml up -d
+docker compose -f docker/docker-compose.juice_shop.yml up -d
 
 # Verify it's running
 curl -sI http://localhost:3000
 
 # Stop when done
-docker compose -f docker/docker-compose.yml down
+docker compose -f docker/docker-compose.juice_shop.yml down
 ```
 
 The target must be running before executing tests. A local containerized
